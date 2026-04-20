@@ -1,0 +1,102 @@
+{% extends "base.html" %} {% load static %}
+<title>{% block title %}All Users Predictions{% endblock %}</title>
+{% block content %}
+<div class="text-center">
+  <h3><i class="fas fa-clock-rotate-left"></i> All Users Predictions</h3>
+
+  <form action="" method="get" class="card border-0 shadow-sm card-body mb-3">
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label for="" name="crop" class="form-label">Crop</label>
+        <select name="crop" id="" class="form-select">
+          <option value="">All</option>
+          {% for c in tot_crops%}
+          <option value="{{c}}">{{c|title}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="" name="start_date" class="form-label">Start Date</label>
+        <input
+          type="date"
+          name="start_date"
+          id=""
+          class="form-control"
+          value="{{startDate}}"
+        />
+      </div>
+      <div class="col-md-3">
+        <label for="" name="end_date" class="form-label">End Date</label>
+        <input
+          type="date"
+          name="end_date"
+          id=""
+          class="form-control"
+          value="{{endDate}}"
+        />
+      </div>
+      <div class="col-md-2 d-flex align-items-end gap-2">
+        <div class="d-grid gap-2">
+          <button class="btn btn-success w-100" type="submit">
+            <i class="fa-solid fa-filter"></i> Search
+          </button>
+        </div>
+        <div class="d-grid gap-2">
+          <a
+            href="{% url 'admin_predictions' %}"
+            class="btn btn-outline-warning w-100"
+            ><i class="fa-solid fa-clock-rotate-left"></i> clear</a
+          >
+        </div>
+      </div>
+    </div>
+  </form>
+  <table class="table mt-4">
+    <thead class="table-success">
+      <tr>
+        <th>S.NO</th>
+        <th>Name</th>
+        <th>Prediction Date</th>
+        <th>Predicted Crop</th>
+        <th>N</th>
+        <th>P</th>
+        <th>K</th>
+        <th>Temperature</th>
+        <th>Humidity</th>
+        <th>pH</th>
+        <th>Rainfall</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for record in qs %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{record.user.username}}</td>
+        <td>{{record.created_at}}</td>
+        <td>
+          <span class="badge bg-success">{{record.predicted_label|title}}</span>
+        </td>
+        <td>{{record.N}}</td>
+        <td>{{record.P}}</td>
+        <td>{{record.K}}</td>
+        <td>{{record.temperature}}</td>
+        <td>{{record.humidity}}</td>
+        <td>{{record.ph}}</td>
+        <td>{{record.rainfall}}</td>
+        <td>
+          <a
+            href="{% url 'admin_delete_prediction' record.id %}"
+            class="btn btn-outline-danger btn-sm"
+            onclick="
+              return confirm('Delete this entry? This cannot be undone');
+            "
+            ><i class="fa-solid fa-trash"></i
+          ></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

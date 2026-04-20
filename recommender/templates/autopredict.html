@@ -1,0 +1,97 @@
+{% extends "base.html" %} {% load static %} {% load dict_extras %}
+<title>{% block title %}Auto Crop Predict{% endblock %}</title>
+{% block content %}
+<div>
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3>
+              <i class="fa-solid fa-hexagon-nodes-bolt"></i> Auto Crop
+              recommendation
+            </h3>
+            <div class="text-muted small d-none d-md-block">
+              <i class="fa-solid fa-circle-info"></i>Enter numeric values
+              (Humidity 0-100, pH 0-14)
+            </div>
+          </div>
+          <hr />
+          <form action="" method="post" id="predictForm">
+            {% csrf_token %}
+            <div class="row g-3">
+              {% for field in features_order %}
+              <div class="col-md-4">
+                <label for="" class="form-label text-uppercase"
+                  >{{field}}</label
+                >
+                {% if field == "humidity" %}
+                <input
+                  type="number"
+                  class="form-control"
+                  required
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  name="{{field}}"
+                  value="{{ api_data|get_item:field }}"
+                />
+                {% elif field == "ph" %}
+                <input
+                  type="number"
+                  class="form-control"
+                  required
+                  min="0"
+                  max="14"
+                  step="0.01"
+                  name="{{field}}"
+                  value="{{ api_data|get_item:field }}"
+                />
+                {% else %}
+                <input
+                  type="number"
+                  class="form-control"
+                  min="0"
+                  required
+                  step="0.01"
+                  name="{{field}}"
+                  value="{{ api_data|get_item:field }}"
+                />
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <button type="submit" class="btn btn-success">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Predict Crop
+              </button>
+              <button class="btn btn-outline-secondary">
+                <i class="fa-solid fa-bolt"></i> Use Sample
+              </button>
+              <button type="reset" class="btn btn-outline-danger">
+                <i class="fa-solid fa-undo"></i> Reset
+              </button>
+            </div>
+
+            {% if result %}
+            <hr />
+            <div class="alert alert-success">
+              Recommended Crop: <strong>{{ result|title }}</strong>
+            </div>
+            {% endif %} {% if last_data %}
+            <div class="small text-muted">
+              <span
+                ><i class="fa-solid fa-info-circle"></i> Last Input Used:</span
+              >
+              {% for k,v in last_data.items %}
+              <code>{{k}}:{{v}}</code>
+              {% if not forloop.last %},{% endif %} {%endfor %}
+            </div>
+            {% endif %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

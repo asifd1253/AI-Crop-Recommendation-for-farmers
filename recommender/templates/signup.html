@@ -1,0 +1,166 @@
+{% extends "base.html" %} {% load static %}
+<title>{% block title %}Sign Up{% endblock %}</title>
+{% block content %}
+<div>
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-lg border-0 overflow-hidden">
+        <div class="row">
+          <div
+            class="col-md-6"
+            style="
+              background: url(&quot;/static/images/carousel3.png&quot;)
+                center/cover no-repeat;
+            "
+          >
+            <div class="w-100 h-100"></div>
+          </div>
+          <div class="col-md-6 bg-white">
+            <div class="p-5">
+              <h3 class="mb-3">
+                <i class="fas fa-user-plus"></i> Create Account
+              </h3>
+              <form action="" method="post" id="signupForm">
+                {% csrf_token %}
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label class="form-label">Full Name</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fa-solid fa-user"></i
+                      ></span>
+                      <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        placeholder="Enter your full name"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label">Phone</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fa-solid fa-phone"></i
+                      ></span>
+                      <input
+                        type="number"
+                        name="phone"
+                        class="form-control"
+                        placeholder="Enter your phone number"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label">Email</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fa-solid fa-envelope"></i
+                      ></span>
+                      <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="Enter your email address"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label"
+                      >Password
+                      <span class="text-muted small">(min 6 chars)</span></label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fa-solid fa-key"></i
+                      ></span>
+                      <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        id="pwd1"
+                        placeholder="*********"
+                      />
+                      <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        id="togglePwd1"
+                        title="Show/Hide"
+                      >
+                        <i class="fa-solid fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label">Confirm Password </label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fa-solid fa-shield"></i
+                      ></span>
+                      <input
+                        type="password"
+                        class="form-control"
+                        id="pwd2"
+                        placeholder="*********"
+                      />
+                      <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        id="togglePwd2"
+                        title="Show/Hide"
+                      >
+                        <i class="fa-solid fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <input
+                      class="form-check-input"
+                      id="agree"
+                      type="checkbox"
+                    />
+                    <label for="agree" class="form-check-label"
+                      >I agree to the <a href="">terms & privacy.</a></label
+                    >
+                  </div>
+                </div>
+                <button class="btn btn-success mt-3 w-100" id="signupBtn">
+                  <span>Create Account</span>
+                </button>
+                <div class="text-center mt-3">
+                  <span class="text-muted small">Already have an account?</span>
+                  <a
+                    href="{% url 'login' %}"
+                    class="small text-decoration-none ms-1"
+                    ><i class="fa-solid fa-right-to-bracket"></i>Login</a
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</div>
+
+<script>
+  const togglePwd1 = document.getElementById("togglePwd1");
+  const togglePwd2 = document.getElementById("togglePwd2");
+  const pwd1 = document.getElementById("pwd1");
+  const pwd2 = document.getElementById("pwd2");
+
+  togglePwd1.addEventListener("click", () => {
+    const type = pwd1.getAttribute("type") === "password" ? "text" : "password";
+    pwd1.setAttribute("type", type);
+    togglePwd1.querySelector("i").classList.toggle("fa-eye-slash");
+  });
+
+  togglePwd2.addEventListener("click", () => {
+    const type = pwd2.getAttribute("type") === "password" ? "text" : "password";
+    pwd2.setAttribute("type", type);
+    togglePwd2.querySelector("i").classList.toggle("fa-eye-slash");
+  });
+</script>
+{% endblock %}

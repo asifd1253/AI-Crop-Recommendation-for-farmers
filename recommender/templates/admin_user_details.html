@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% load static %}
+<title>{% block title %}Users Details{% endblock %}</title>
+{% block content %}
+<div class="text-center">
+  <h3><i class="fas fa-users"></i> Registered Users</h3>
+
+  <table class="table mt-4">
+    <thead class="table-success">
+      <tr>
+        <th>S.NO</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Mail</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for record in users %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{record.get_full_name}} {{record.get_last_name}}</td>
+        <td>{{record.userprofile.phone}}</td>
+        <td>{{record.username}}</td>
+        <td>
+          <a
+            href="{% url 'delete_user' id=record.id %}"
+            class="btn btn-outline-danger btn-sm"
+            onclick="
+              return confirm('Delete this entry? This cannot be undone');
+            "
+            ><i class="fa-solid fa-trash"></i
+          ></a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %} {% load static %}
+<title>{% block title %}Login{% endblock %}</title>
+{% block content %}
+<div>
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-lg border-0 overflow-hidden">
+        <div class="row">
+          <div
+            class="col-md-6"
+            style="
+              background: url(&quot;/static/images/carousel4.png&quot;)
+                center/cover no-repeat;
+            "
+          >
+            <div class="w-100 h-100"></div>
+          </div>
+          <div class="col-md-6 bg-white">
+            <div class="p-5">
+              <h3 class="mb-3">
+                <i class="fa-solid fa-right-to-bracket"></i> User Login
+              </h3>
+              <form action="" method="post" id="loginForm">
+                {% csrf_token %}
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label class="form-label">Email</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fa-solid fa-envelope"></i
+                      ></span>
+                      <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="Enter your email address"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label"
+                      >Password
+                      <span class="text-muted small">(min 6 chars)</span></label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fa-solid fa-key"></i
+                      ></span>
+                      <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        id="pwd"
+                        placeholder="*********"
+                      />
+                      <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        id="togglePwd"
+                        title="Show/Hide"
+                      >
+                        <i class="fa-solid fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-success mt-3 w-100" id="loginBtn">
+                  <span>Login</span>
+                </button>
+                <div class="text-center mt-3">
+                  <span class="text-muted small">Don't have an account?</span>
+                  <a
+                    href="{% url 'signup' %}"
+                    class="small text-decoration-none ms-1"
+                    ><i class="fa-solid fa-user-plus"></i>Sign Up</a
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</div>
+<script>
+  const togglePwd = document.getElementById("togglePwd");
+  const pwd = document.getElementById("pwd");
+
+  togglePwd.addEventListener("click", () => {
+    const type = pwd.getAttribute("type") === "password" ? "text" : "password";
+    pwd.setAttribute("type", type);
+    togglePwd.querySelector("i").classList.toggle("fa-eye-slash");
+  });
+</script>
+{% endblock %}

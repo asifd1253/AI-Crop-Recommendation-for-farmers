@@ -1,0 +1,121 @@
+{% extends "base.html" %} {% load static %}
+<title>{% block title %}Predict Crop{% endblock %}</title>
+{% block content %}
+<div>
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3>
+              <i class="fa-solid fa-flask"></i> Manual Crop recommendation
+            </h3>
+            <div class="text-muted small d-none d-md-block">
+              <i class="fa-solid fa-circle-info"></i>Enter numeric values
+              (Humidity 0-100, pH 0-14)
+            </div>
+          </div>
+          <hr />
+          <form action="" method="post" id="predictForm">
+            {% csrf_token %}
+            <div class="row g-3">
+              {% for field in features_order %}
+              <div class="col-md-4">
+                <label for="" class="form-label text-uppercase"
+                  >{{field}}</label
+                >
+                {% if field == "humidity" %}
+                <input
+                  type="number"
+                  class="form-control"
+                  required
+                  min="0"
+                  max="100"
+                  name="{{field}}"
+                />
+                {% elif field == "ph" %}
+                <input
+                  type="number"
+                  class="form-control"
+                  required
+                  min="0"
+                  max="14"
+                  name="{{field}}"
+                />
+                {% else %}
+                <input
+                  type="number"
+                  class="form-control"
+                  min="0"
+                  required
+                  name="{{field}}"
+                />
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <button type="submit" class="btn btn-success">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Predict Crop
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                id="useSample"
+              >
+                <i class="fa-solid fa-bolt"></i> Use Sample
+              </button>
+              <button type="reset" class="btn btn-outline-danger">
+                <i class="fa-solid fa-undo"></i> Reset
+              </button>
+            </div>
+
+            {% if result %}
+            <hr />
+            <div class="alert alert-success">
+              Recommended Crop: <strong>{{ result|title }}</strong>
+            </div>
+            {% endif %} {% if last_data %}
+            <div class="small text-muted">
+              <span
+                ><i class="fa-solid fa-info-circle"></i> Last Input Used:</span
+              >
+              {% for k,v in last_data.items %}
+              <code>{{k}}:{{v}}</code>
+              {% if not forloop.last %},{% endif %} {%endfor %}
+            </div>
+            {% endif %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    const form = document.getElementById("predictForm");
+    const inputs = form ? form.querySelectorAll("input[name]") : [];
+
+    const sample = {
+      N: 90,
+      P: 47,
+      K: 47,
+      temperature: 25,
+      humidity: 90,
+      ph: 7,
+      rainfall: 200,
+    };
+
+    document.getElementById("useSample").addEventListener("click", () => {
+      inputs.forEach((input) => {
+        const key = input.name;
+        if (sample[key] !== undefined) {
+          input.value = sample[key];
+        }
+      });
+      Swal.fire({ icon: "info", title: "Sample filled" });
+    });
+  })();
+</script>
+{% endblock %}

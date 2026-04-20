@@ -1,0 +1,76 @@
+{% extends "base.html" %} {% load static %}
+<title>{% block title %}Admin Login{% endblock %}</title>
+{% block content %}
+<div>
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-lg border-0 overflow-hidden">
+        <div class="row">
+          <div
+            class="col-md-6"
+            style="
+              background: url(&quot;/static/images/carousel1.png&quot;)
+                center/cover no-repeat;
+            "
+          >
+            <div class="w-100 h-100"></div>
+          </div>
+          <div class="col-md-6 bg-white">
+            <div class="p-5">
+              <h3 class="mb-3">
+                <i class="fa-solid fa-right-to-bracket"></i> Admin Login
+              </h3>
+              <form action="" method="post" id="loginForm">
+                {% csrf_token %}
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <label class="form-label">Username</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fa-solid fa-user"></i
+                      ></span>
+                      <input
+                        type="text"
+                        name="username"
+                        class="form-control"
+                        placeholder="Enter your username"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <label class="form-label">Password</label>
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="fa-solid fa-key"></i
+                      ></span>
+                      <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        id="pwd1"
+                        placeholder="*********"
+                      />
+                      <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        id="togglePwd"
+                        title="Show/Hide"
+                      >
+                        <i class="fa-solid fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-success mt-3 w-100" id="loginBtn">
+                  <span>Admin Login</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div></div>
+</div>
+{% endblock %}
